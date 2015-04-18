@@ -4,3 +4,6 @@
 !.gitignore
 # and the default Theme
 !HumHub/
+# and the deMENSEN Theme
+!deMENSEN/
+

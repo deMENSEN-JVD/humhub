@@ -18,7 +18,8 @@ class SpaceMenuWidget extends MenuWidget
 
         // Reckon the current controller is a valid space controller
         // (Needs to implement the SpaceControllerBehavior)
-        $spaceGuid = Yii::app()->getController()->getSpace()->guid;
+        //$spaceGuid = Yii::app()->getController()->getSpace()->guid;
+        $spaceGuid = $this->space->guid;
 
         $this->addItemGroup(array(
             'id' => 'modules',
