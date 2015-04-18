@@ -1,9 +1,0 @@
-# Ignore everything in this directory
-*
-# Except this file
-!.gitignore
-# and the default Theme
-!HumHub/
-# and the deMENSEN Theme
-!deMENSEN/
-
