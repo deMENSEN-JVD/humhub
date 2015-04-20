@@ -20,7 +20,7 @@
 .datepicker table tr td.today.disabled:hover[disabled] {
     color: #ffffff;
     text-shadow: none;
-    background-color: #72dce8;
+    background-color: #FFD22C; // #72dce8;
 }
 
 .datepicker table tr td.today:active,
@@ -33,7 +33,7 @@
 .datepicker table tr td.today.disabled:hover.active {
     color: #ffffff;
     text-shadow: none;
-    background-color: #72dce8  \9;
+    background-color: #FFD22C; // #72dce8  \9;
 }
 
 .datepicker table tr td.range.today:hover,
@@ -92,7 +92,7 @@
 .datepicker table tr td.active.disabled:hover[disabled] {
     color: #ffffff;
     text-shadow: none;
-    background: #72dce8;
+    background: #FFD22C; // #72dce8;
 }
 
 .datepicker table tr td span.active:hover,
@@ -117,7 +117,7 @@
 .datepicker table tr td span.active.disabled:hover[disabled] {
     color: #ffffff;
     text-shadow: none;
-    background: #72dce8;
+    background: #FFD22C; // #72dce8;
 }
 
 
@@ -125,20 +125,21 @@
 .datepicker table tr td.today:hover,
 .datepicker table tr td.today.disabled,
 .datepicker table tr td.today.disabled:hover {
-    color: #ffffff;
+    color: #777777;
     text-shadow: none;
-    background: #708fa0;
+    background: #f5f5f5; // #708fa0;
 }
 
 .datepicker table tr td.range.today,
 .datepicker table tr td.range.today:hover,
 .datepicker table tr td.range.today.disabled,
 .datepicker table tr td.range.today.disabled:hover {
-    color: #ffffff;
+    color: #777777;
     text-shadow: none;
-    background: #708fa0;
+    background: #f5f5f5; // #708fa0;
 }
 
 .bootstrap-datetimepicker-widget td.today:before {
-    border-bottom: 7px solid #ffffff;
+    border-bottom: none !important; // 7px solid #ffffff;
 }
+

@@ -28,6 +28,7 @@ class DashboardController extends Controller
 {
 
     public $contentOnly = true;
+    public $space = null;
 
     /**
      * @return array action filters
@@ -147,4 +148,7 @@ class DashboardController extends Controller
         Yii::app()->end();
     }
 
+    public function getSpace() {
+        return $this->space;
+    }
 }

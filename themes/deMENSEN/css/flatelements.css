@@ -1,5 +1,5 @@
 .onoffswitch-inner:before {
-    background-color: #72dce8;
+    background-color: #FFD22C;
     color: #FFFFFF;
 }
 
@@ -10,14 +10,14 @@
 }
 
 .regular-checkbox:checked + .regular-checkbox-box {
-    border: 2px solid #72dce8;
-    background: #72dce8;
+    border: 2px solid #FFD22C;
+    background: #FFD22C;
     color: white;
 }
 
 
 .regular-radio:checked + .regular-radio-button:after {
-    background: #72dce8;
+    background: #FFD22C;
 }
 
 .regular-radio:checked + .regular-radio-button {
