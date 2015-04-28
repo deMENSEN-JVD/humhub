@@ -139,23 +139,44 @@ function parseEntriesHtml(json, container) {
 }
 
 // Add new posts to stream
+var spacesTotalItems = null;
+
 $(document).on("newFrontEndInfo", function(event) {
     var spaces = event.info.workspaces;
-    var currentGuid = "<?php echo $this->contentContainer->guid ?>";
+    if (!spacesTotalItems) {
+        // Init spacesTotalItems
+        spacesTotalItems = {};
+        for (var i in spaces) {
+            var guid = spaces[i].guid;
+            spacesTotalItems[guid] = spaces[i].totalItems;
+        }
+        return;
+    }
+    var currentGuid = "<?php if (is_object($this->contentContainer)) { echo $this->contentContainer->guid; } ?>";
+    if (currentGuid == "") {
+        return;
+    }
     for (var i in spaces) {
         var guid = spaces[i].guid;
-        var numberOfNewItems = spaces[i].newItems;
-        if (currentGuid == guid && numberOfNewItems > 0) {
+        var newTotalItems = spaces[i].totalItems;
+        var oldTotalItems = spacesTotalItems[guid];
+        if (!oldTotalItems) {
+            // New space
+            spacesTotalItems[guid] = newTotalItems;
+            return;
+        }
+        if (oldTotalItems < newTotalItems) {
             // There are new items for this wall, let's load them
             var url = streamUrl;
             url = url.replace('-filter-', '');
             url = url.replace('-sort-', '');
             url = url.replace('-from-', '');
-            url = url.replace('-limit-', numberOfNewItems);
+            url = url.replace('-limit-', newTotalItems - oldTotalItems);
             jQuery.getJSON(url, function (json) {
+                spacesTotalItems[guid] = newTotalItems;
                 currentStream.loadedEntryCount += json.counter;
                 streamDiv = $(currentStream.baseDiv).find(".s2_streamContent");
-                $(parseEntriesHtml(json)).prependTo($(streamDiv)).fadeIn('fast');
+                $(parseEntriesHtml(json, streamDiv)).prependTo($(streamDiv)).fadeIn('fast');
                 currentStream.onNewEntries();
                 $(currentStream.baseDiv).find(".emptyStreamMessage").hide();
             });
