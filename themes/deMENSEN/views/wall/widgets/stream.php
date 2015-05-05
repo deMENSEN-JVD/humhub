@@ -153,9 +153,11 @@ $(document).on("newFrontEndInfo", function(event) {
         return;
     }
     var currentGuid = "<?php if (is_object($this->contentContainer)) { echo $this->contentContainer->guid; } ?>";
-    if (currentGuid == "") {
+    var isDashboard = (streamUrl.indexOf("dashboard") > -1);
+    if (currentGuid == "" && !isDashboard) {
         return;
     }
+    var itemsToLoad = 0;
     for (var i in spaces) {
         var guid = spaces[i].guid;
         var newTotalItems = spaces[i].totalItems;
@@ -163,24 +165,33 @@ $(document).on("newFrontEndInfo", function(event) {
         if (!oldTotalItems) {
             // New space
             spacesTotalItems[guid] = newTotalItems;
-            return;
+            continue;
         }
-        if (oldTotalItems < newTotalItems) {
-            // There are new items for this wall, let's load them
-            var url = streamUrl;
-            url = url.replace('-filter-', '');
-            url = url.replace('-sort-', '');
-            url = url.replace('-from-', '');
-            url = url.replace('-limit-', newTotalItems - oldTotalItems);
-            jQuery.getJSON(url, function (json) {
-                spacesTotalItems[guid] = newTotalItems;
-                currentStream.loadedEntryCount += json.counter;
-                streamDiv = $(currentStream.baseDiv).find(".s2_streamContent");
-                $(parseEntriesHtml(json, streamDiv)).prependTo($(streamDiv)).fadeIn('fast');
-                currentStream.onNewEntries();
-                $(currentStream.baseDiv).find(".emptyStreamMessage").hide();
-            });
+        if (isDashboard) {
+            itemsToLoad += newTotalItems - oldTotalItems;
+            spacesTotalItems[guid] = newTotalItems;
+            continue;
         }
+        if (currentGuid == guid && oldTotalItems < newTotalItems) {
+            itemsToLoad = newTotalItems - oldTotalItems;
+            spacesTotalItems[guid] = newTotalItems;
+            break;
+        }
+    }
+    if (itemsToLoad > 0) {
+        // There are new items for this wall, let's load them
+        var url = streamUrl;
+        url = url.replace('-filter-', '');
+        url = url.replace('-sort-', '');
+        url = url.replace('-from-', '');
+        url = url.replace('-limit-', itemsToLoad);
+        jQuery.getJSON(url, function (json) {
+            currentStream.loadedEntryCount += json.counter;
+            streamDiv = $(currentStream.baseDiv).find(".s2_streamContent");
+            $(parseEntriesHtml(json, streamDiv)).prependTo($(streamDiv)).fadeIn('fast');
+            currentStream.onNewEntries();
+            $(currentStream.baseDiv).find(".emptyStreamMessage").hide();
+        });
     }
 });
 </script>
